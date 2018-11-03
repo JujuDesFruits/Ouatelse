@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="background" onKeyTyped="#search" prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.salesman.SearchClient">
+   <children>
+      <TextField fx:id="searchBar" layoutX="14.0" layoutY="14.0" onKeyTyped="#search" prefHeight="34.0" prefWidth="317.0" />
+      <Button layoutX="344.0" layoutY="14.0" mnemonicParsing="false" onAction="#search" prefHeight="34.0" prefWidth="76.0" text="Rechercher" />
+      <Button fx:id="back" layoutX="1005.0" layoutY="10.0" mnemonicParsing="false" onAction="#back" prefHeight="34.0" prefWidth="61.0" text="Retour" />
+      <TableView fx:id="tableClient" layoutX="14.0" layoutY="176.0" prefHeight="528.0" prefWidth="1052.0">
+        <columns>
+          <TableColumn fx:id="last_name_column" prefWidth="525.0" text="Nom" />
+          <TableColumn fx:id="first_name_column" prefWidth="526.0" text="Prenom" />
+        </columns>
+      </TableView>
+      <Button layoutX="540.0" layoutY="124.0" mnemonicParsing="false" onAction="#selectClient" prefHeight="34.0" prefWidth="138.0" text="Selectionner" />
+      <Button layoutX="682.0" layoutY="124.0" mnemonicParsing="false" onAction="#details" prefHeight="34.0" prefWidth="126.0" text="Détails" />
+      <Button fx:id="addClient" layoutX="975.0" layoutY="124.0" mnemonicParsing="false" onAction="#addClient" prefHeight="34.0" prefWidth="91.0" text="Plus" />
+   </children>
+</AnchorPane>

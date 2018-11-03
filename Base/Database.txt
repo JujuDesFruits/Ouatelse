@@ -1,0 +1,223 @@
+Drop Database IF EXISTS Ouatelse_Gp4_P1;
+CREATE DATABASE Ouatelse_Gp4_P1;
+USE Ouatelse_Gp4_P1;
+CREATE TABLE Person(
+	Code_Person INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+	LastName VARCHAR(20) NOT NULL,
+	FirstName VARCHAR(20) NOT NULL,
+	Address VARCHAR(100),
+	City VARCHAR(20),
+	Zip_Code INT,
+	Phone INT UNIQUE );
+CREATE TABLE Client(
+	Code_Person INT PRIMARY KEY NOT NULL,
+	FOREIGN KEY (Code_Person) REFERENCES Person(Code_Person));
+CREATE TABLE Salaried(
+	Code_Person INT PRIMARY KEY NOT NULL,
+	FOREIGN KEY (Code_Person) REFERENCES Person(Code_Person),
+	Login VARCHAR(20) NOT NULL UNIQUE,
+	Password VARCHAR(20) NOT NULL);
+CREATE TABLE Product(
+	Code_Product INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+	Label VARCHAR(20) NOT NULL UNIQUE,
+	Price INT NOT NULL, 
+	Description VARCHAR(100));
+CREATE TABLE Cap(
+	Code_Product INT PRIMARY KEY NOT NULL,
+	FOREIGN KEY (Code_Product) REFERENCES Product(Code_Product),
+	Intensity INT NOT NULL);
+CREATE TABLE Cofee_Machine(
+	Code_Product INT PRIMARY KEY NOT NULL,
+	FOREIGN KEY (Code_Product) REFERENCES Product(Code_Product));
+CREATE TABLE Command(
+	Code_Command INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+	Date VARCHAR(10) NOT NULL,
+	Code_Person INT,
+	FOREIGN KEY (Code_Person) REFERENCES Person(Code_Person));
+CREATE TABLE Shop(
+	Code_Shop INT PRIMARY KEY NOT NULL AUTO_INCREMENT ,
+	Address VARCHAR(80) NOT NULL UNIQUE,
+	City  VARCHAR(20) NOT NULL,
+	Zip_Code INT NOT NULL,
+	Email VARCHAR(30));
+CREATE TABLE Holiday(
+	Code_Holiday INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+	Begin_Date VARCHAR(10),
+	End_Date VARCHAR(10),
+	Code_Person INT NOT NULL,
+	FOREIGN KEY (Code_Person) REFERENCES Salaried(Code_Person));
+CREATE TABLE Situation(
+	Code_Situation INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+	Situation_Label VARCHAR(30) NOT NULL UNIQUE);
+INSERT INTO Situation (Situation_Label) VALUES ('Supervisor');
+INSERT INTO Situation (Situation_Label) values ('Salesman');
+INSERT INTO Situation (Situation_Label) values ('PurchasingManager');
+INSERT INTO Situation (Situation_Label) values ('ShopManager');
+CREATE TABLE Stock(
+	Code_Shop INT NOT NULL,
+	Code_Product INT NOT NULL,
+	Quantity INT,
+	FOREIGN KEY (Code_Shop) REFERENCES Shop(Code_Shop),
+	FOREIGN KEY (Code_Product) REFERENCES Product(Code_Product),
+	PRIMARY KEY(Code_Shop,Code_Product));
+CREATE TABLE Contain(
+	Code_Command INT NOT NULL,
+	Code_Product INT NOT NULL,
+	FOREIGN KEY (Code_Command) REFERENCES Command(Code_Command),
+	FOREIGN KEY (Code_Product) REFERENCES Product(Code_Product),
+	PRIMARY KEY(Code_Command,Code_Product),
+	Quantity INT);
+CREATE TABLE Occupy(
+	Code_Person INT NOT NULL,
+	Code_Situation INT NOT NULL,
+	FOREIGN KEY (Code_Person) REFERENCES Person(Code_Person),
+	FOREIGN KEY (Code_Situation) REFERENCES Situation(Code_Situation),
+	PRIMARY KEY(Code_Person,Code_Situation));
+CREATE TABLE Is_Salaried(
+	Code_Person INT NOT NULL UNIQUE,
+	Code_Shop INT NOT NULL,
+	FOREIGN KEY (Code_Person) REFERENCES Person(Code_Person),
+	FOREIGN KEY (Code_Shop) REFERENCES Shop(Code_Shop),
+	PRIMARY KEY(Code_Person,Code_Shop));
+
+
+CREATE TABLE Error(
+    id TINYINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    error VARCHAR(255) UNIQUE);
+
+INSERT INTO Error (error) VALUES ('Error : Person is already a Client');
+INSERT INTO Error (error) VALUES ('Error : Person is already a Salaried');
+INSERT INTO Error (error) VALUES ('Error : Product is already a Cofee_Machine');
+INSERT INTO Error (error) VALUES ('Error : Product is already a Cap');
+INSERT INTO Error (error) VALUES ('Error : Could not manipulate this table');
+
+
+DELIMITER |
+CREATE PROCEDURE product_in_all_shop(IN key_product int, IN quantity int)
+BEGIN
+	DECLARE primary_key INT;
+	DECLARE done INT DEFAULT FALSE;
+
+	DECLARE select_all CURSOR FOR SELECT Code_Shop FROM Shop;
+ 
+	DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+ 
+	OPEN select_all;
+ 
+	read_loop: LOOP
+   	FETCH select_all INTO primary_key;
+   	IF done THEN
+    	  LEAVE read_loop;
+   	END IF;
+   	INSERT INTO Stock (Code_Shop, Code_Product, Quantity) values (primary_key, key_product, quantity);
+	END LOOP;
+  
+	CLOSE select_all;
+END |
+
+
+
+
+CREATE TRIGGER before_insert_situation Before INSERT
+ON Situation FOR EACH ROW
+BEGIN
+	IF (SELECT count(Code_Person) FROM Client)!=0
+	THEN INSERT INTO Error (error) VALUES ('Error : Could not manipulate this table');
+	END IF;
+END |
+
+CREATE TRIGGER before_update_situation Before UPDATE
+ON Situation FOR EACH ROW
+BEGIN
+	IF (SELECT count(Code_Person) FROM Client)!=0
+	THEN INSERT INTO Error (error) VALUES ('Error : Could not manipulate this table');
+	END IF;
+END |
+
+CREATE TRIGGER before_delete_situation Before DELETE
+ON Situation FOR EACH ROW
+BEGIN
+	IF (SELECT count(Code_Person) FROM Client)!=0
+	THEN INSERT INTO Error (error) VALUES ('Error : Could not manipulate this table');
+	END IF;
+END |
+
+
+
+
+CREATE TRIGGER before_insert_salaried Before INSERT
+ON Salaried FOR EACH ROW
+BEGIN
+	IF (SELECT count(Code_Person) FROM Client WHERE Client.Code_Person = NEW.Code_Person) != 0 
+	THEN INSERT INTO Error (error) VALUES ('Error : Person is already a Client');
+	END IF;
+
+END | 
+
+CREATE TRIGGER before_update_salaried Before UPDATE
+ON Salaried FOR EACH ROW
+BEGIN
+	IF (SELECT count(Code_Person) FROM Client WHERE Client.Code_Person = NEW.Code_Person) != 0
+	THEN INSERT INTO Error (error) VALUES ('Error : Person is already a Client');
+	END IF ;
+END |
+
+
+
+
+CREATE TRIGGER before_insert_client Before INSERT
+ON Client FOR EACH ROW
+BEGIN
+	IF (SELECT count(Code_Person) FROM Salaried WHERE Salaried.Code_Person = NEW.Code_Person) != 0
+	THEN INSERT INTO Error (error) VALUES ('Error : Person is already a Salaried');
+	END IF ;
+END |
+
+CREATE TRIGGER before_update_client Before UPDATE
+ON Client FOR EACH ROW
+BEGIN
+	IF (SELECT count(Code_Person) FROM Salaried WHERE Salaried.Code_Person = NEW.Code_Person) != 0
+	THEN INSERT INTO Error (error) VALUES ('Error : Person is already a Salaried');
+	END IF ;
+END |
+
+
+
+
+
+CREATE TRIGGER before_insert_Cofee_Machine Before INSERT
+ON Cofee_Machine FOR EACH ROW
+BEGIN
+	IF (SELECT count(Code_Product) FROM Cap WHERE Cap.Code_Product = NEW.Code_Product) != 0 
+	THEN INSERT INTO Error (error) VALUES ('Error : Product is already a Cap');
+	END IF;
+
+END | 
+
+CREATE TRIGGER before_update_Cofee_Machine Before UPDATE
+ON Cofee_Machine FOR EACH ROW
+BEGIN
+	IF (SELECT count(Code_Product) FROM Cap WHERE Cap.Code_Product = NEW.Code_Product) != 0
+	THEN INSERT INTO Error (error) VALUES ('Error : Product is already a Cap');
+	END IF ;
+END |
+
+
+
+
+CREATE TRIGGER before_insert_Cap Before INSERT
+ON Cap FOR EACH ROW
+BEGIN
+	IF (SELECT count(Code_Product) FROM Cofee_Machine WHERE Cofee_Machine.Code_Product = NEW.Code_Product) != 0
+	THEN INSERT INTO Error (error) VALUES ('Error : Product is already a Cofee_Machine');
+	END IF ;
+END |
+
+CREATE TRIGGER before_update_Cap Before UPDATE
+ON Cap FOR EACH ROW
+BEGIN
+	IF (SELECT count(Code_Product) FROM Cofee_Machine WHERE Cofee_Machine.Code_Product = NEW.Code_Product) != 0
+	THEN INSERT INTO Error (error) VALUES ('Error : Product is already a Cofee_Machine');
+	END IF ;
+END |
+DELIMITER ;

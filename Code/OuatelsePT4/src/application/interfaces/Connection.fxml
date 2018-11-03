@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Glow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="background" prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.Connection_app">
+   <children>
+      <Text layoutX="370.0" layoutY="103.0" strokeType="OUTSIDE" strokeWidth="0.0" text="OUATELSE" textAlignment="CENTER" wrappingWidth="358.482421875">
+         <font>
+            <Font size="65.0" />
+         </font>
+         <effect>
+            <Glow />
+         </effect>
+      </Text>
+      <TextField fx:id="login" layoutX="533.0" layoutY="257.0" onAction="#enterPressed" prefHeight="32.0" prefWidth="251.0" />
+      <Text layoutX="316.0" layoutY="279.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Identifiant :" wrappingWidth="108.8125">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <Text layoutX="301.0" layoutY="353.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mot de passe :" wrappingWidth="157.8125">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <PasswordField fx:id="password" layoutX="533.0" layoutY="331.0" onAction="#enterPressed" prefHeight="32.0" prefWidth="251.0" />
+      <Button layoutX="448.0" layoutY="496.0" mnemonicParsing="false" onAction="#connectionTry" prefHeight="46.0" prefWidth="170.0" text="Se Connecter" />
+      <Text fx:id="wrongPasswordMessage" fill="RED" layoutX="435.0" layoutY="428.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mot de passe erroné, veuillez réessayer." visible="false" />
+      
+   </children>
+</AnchorPane>

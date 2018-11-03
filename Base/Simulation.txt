@@ -1,0 +1,101 @@
+USE Ouatelse_Gp4_P1;
+
+Insert into Person (LastName,FirstName,Address,City,Zip_Code,Phone) values ('Hello','Kitty','50 av de la paix', 'New York', 25630, 0658492531);
+Insert into Person (LastName,FirstName,Address,City,Zip_Code,Phone) values ('Bond','James','06 av de la drague', 'Sydney', 11006, 0600600600);
+Insert into Person (LastName,FirstName,Address,City,Zip_Code,Phone) values ('Indiana','Jones','203 du danger', 'Bagan', 56057, 0795351487);
+Insert into Person (LastName,FirstName,Address,City,Zip_Code,Phone) values ('Hatsune','Miku','00 av de la virtualisation', 'Tokyo', 10000, 0100000000);
+Insert into Person (LastName,FirstName,Address,City,Zip_Code,Phone) values ('Everdeen','Katniss','38 av de la douille', 'Sydney', 25000, 0955648422);
+Insert into Person (LastName,FirstName,Address,City,Zip_Code,Phone) values ('Kardashian','Kim','69 av de la chirurgie', 'Amsterdam', 90000, 0999999999);
+Insert into Person (LastName,FirstName,Address, Phone) values ('Sparrow','Jack','perdu', 0864909090);
+Insert into Person (LastName,FirstName,Address,City,Zip_Code,Phone) values ('Arandelle','Elsa','chateau de glace', 'Alaska', 90090, 0455212531);
+Insert into Person (LastName,FirstName,Address,City,Zip_Code,Phone) values ('Poppins','Marry','50 av de la gaieté', 'Paris', 75000, 0664825487);
+Insert into Person (LastName,FirstName,Address,City,Zip_Code) values ('Potter','Harry','sous les escaliers', 'New York', 25630);
+
+Insert into Product (Label,Price,Description) values ('Latte',3,'un capsule au arômes équilibrés');
+Insert into Product (Label,Price,Description) values ('The Ouat',350,'une machine lambda');
+Insert into Product (Label,Price,Description) values ('The Fillet',300,'une petite machine portable');
+Insert into Product (Label,Price,Description) values ('Risetretto',4,'une capsule intense');
+Insert into Product (Label,Price,Description) values ('The Throws Up',500,'une machine familiale');
+Insert into Product (Label,Price,Description) values ('The Cascade',700,'vous allez vous noyer dedans');
+Insert into Product (Label,Price,Description) values ('Latte Forte',5,'le latte, une passion avant tout');
+Insert into Product (Label,Price,Description) values ('Lungo',4,'une capsule OVERRRR POWER !');
+
+Insert into Shop (Address, City, Zip_Code,Email) values ('24 av du tondu', 'Paris', 75000, 'TourEiffel@ouat.else');
+Insert into Shop (Address, City, Zip_Code,Email) values ('78 av des perles', 'Paris', 75000, 'Montparnasse@ouat.else');
+Insert into Shop (Address, City, Zip_Code,Email) values ('10 av of higth', 'New York', 86421, 'Liberty@ouat.else');
+Insert into Shop (Address, City, Zip_Code,Email) values ('02 av of heiku', 'Tokyo', 10101, 'SkyTree@ouat.else');
+Insert into Shop (Address, City, Zip_Code,Email) values ('201 av of walisa', 'Syndey', 84752, 'Opera@ouat.else');
+
+Insert into Cap values (1,10);
+Insert into Cap values (4,10);
+Insert into Cap values (7,20);
+Insert into Cap values (8,10);
+
+Insert into Cofee_Machine values (2);
+Insert into Cofee_Machine values (3);
+Insert into Cofee_Machine values (5);
+Insert into Cofee_Machine values (6);
+
+Insert into Client values (1);
+Insert into Client values (3);
+Insert into Client values (4);
+Insert into Client values (7);
+Insert into Client values (10);
+
+Insert into Salaried values (2,'jbond','jb');
+Insert into Salaried values (5,'keverdeen','ke');
+Insert into Salaried values (6,'kkardashian','kk');
+Insert into Salaried values (8,'earandelle','ea');
+Insert into Salaried values (9,'mpoppins','mp');
+
+Insert into Occupy values (2,3);
+Insert into Occupy values (5,2);
+Insert into Occupy values (6,1);
+Insert into Occupy values (8,3);
+Insert into Occupy values (9,4);
+
+Insert into Is_Salaried values (2,1);
+Insert into Is_Salaried values (5,2);
+Insert into Is_Salaried values (6,3);
+Insert into Is_Salaried values (8,4);
+Insert into Is_Salaried values (9,5);
+
+Insert into Stock values (1,1,1000);
+Insert into Stock values (2,1,1000);
+Insert into Stock values (3,1,1000);
+Insert into Stock values (4,1,1000);
+Insert into Stock values (5,1,1000);
+Insert into Stock values (1,2,500);
+Insert into Stock values (2,3,500);
+Insert into Stock values (3,4,500);
+Insert into Stock values (4,2,500);
+Insert into Stock values (5,5,500);
+Insert into Stock values (1,6,200);
+Insert into Stock values (2,7,200);
+Insert into Stock values (3,7,200);
+Insert into Stock values (4,8,200);
+Insert into Stock values (5,7,200);
+
+Insert into Command (Date,Code_Person) values ('01/02/2015',1);
+Insert into Command (Date,Code_Person) values ('16/01/2016',1);
+Insert into Command (Date,Code_Person) values ('01/02/2015',3);
+Insert into Command (Date,Code_Person) values ('18/03/2018',3);
+Insert into Command (Date,Code_Person) values ('30/11/2003',10);
+
+Insert into Contain values (1,1,3);
+Insert into Contain values (1,2,1);
+Insert into Contain values (1,4,3);
+Insert into Contain values (2,1,3);
+Insert into Contain values (2,4,3);
+Insert into Contain values (3,7,20);
+Insert into Contain values (3,6,1);
+Insert into Contain values (3,4,20);
+Insert into Contain values (4,4,10);
+Insert into Contain values (5,7,5);
+Insert into Contain values (5,5,1);
+Insert into Contain values (5,8,10);
+Insert into Contain values (5,4,10);
+
+Insert into Holiday (Begin_Date,End_Date,Code_Person) values ('01/01/2015','20/01/2015',6);
+Insert into Holiday (Begin_Date,End_Date,Code_Person) values ('15/03/2017','30/02/2018',6);
+Insert into Holiday (Begin_Date,End_Date,Code_Person) values ('30/11/2011','05/12/2011',2);
